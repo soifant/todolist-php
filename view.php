@@ -57,7 +57,15 @@ echo '
 '.$da['list'].'
 </span>
 <span class="tambah">
-'.$da['status'].'
+';
+
+if($da['status'] == 'menunggu'){
+	echo '<a href="/?pilih=selesaikan&id='.$da['list'].'"> Selesaikan</a>';
+}else{
+	echo $da['status'];
+}
+
+echo '
 </span>
 
 </div>';
