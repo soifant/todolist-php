@@ -38,28 +38,28 @@ class Data extends Database{
 	
 	//Menampilkan semua
 	public function semuaData(){
-			$this->query('SELECT * FROM dataPegawai');
+			$this->query('SELECT * FROM todolist');
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Menampilkan dari umur termuda
 	public function termuda(){
-			$this->query('SELECT * FROM dataPegawai ORDER BY umur ASC');
+			$this->query("SELECT * FROM todolist WHERE status='selesai'");
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Menampilkan dari yang tua
 	public function tertua(){
-			$this->query('SELECT * FROM dataPegawai ORDER BY umur DESC');
+			$this->query("SELECT * FROM todolist WHERE status='menunggu'");
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Menampilkan berdasarkan pencarian
 	public function cari($cari){
-			$this->query("SELECT * FROM dataPegawai WHERE umur=$cari");
+			$this->query("SELECT * FROM todolist WHERE list='$cari'");
 			return $this->tampilkan($this->eksekusi());
 	
 	}
@@ -70,22 +70,23 @@ class Data extends Database{
 
 $dp = new Data;
 switch($_GET['pilih']){
-	case 'termuda':
+	case 'selesai':
 		echo $dp->termuda();
 			break;
 	
-	case 'tertua':
+	case 'menunggu':
 		echo $dp->tertua();
 			break;
 	
 	default:
+	
 		if($_POST['cari']){
 		
 				echo $dp->cari($_POST['cari']);
 		}else{
 				echo $dp->semuaData();
 		}
-			break;			
+				break;			
 
 }
 
@@ -93,12 +94,3 @@ switch($_GET['pilih']){
 
 ?>
 
-<br>
-<a href="/?pilih=termuda" >Termuda</a>
-<br>
-<a href="/?pilih=tertua" >Tetua</a>
-
-<form method="post" action="/">
-<input placeholder="input" name="cari" >
-<button type="submit">cari</button>
-</from>
