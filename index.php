@@ -51,7 +51,7 @@ class Data extends Database{
 	
 	}
 	
-	//Menampilkan menunggu
+	//Menampilkan daftar menunggu
 	public function menunggu(){
 			$this->query("SELECT * FROM todolist WHERE status='menunggu'");
 			return $this->tampilkan($this->eksekusi());
@@ -72,6 +72,13 @@ class Data extends Database{
 			return $this->semuaData();
 			
 	}
+	
+	//Menambah daftar
+	public function tambah($list){
+			$this->query("INSERT INTO todolist SET list='$list', status='menunggu'");
+			$this->eksekusi();
+			return $this->semuaData();
+	}
 }
 
 
@@ -84,11 +91,15 @@ switch($_GET['pilih']){
 			break;
 	
 	case 'menunggu':
-		echo $dp->selesai();
+		echo $dp->menunggu();
 			break;
 			
 	case 'selesaikan':
 			echo $dp->selesaikan($_GET['id']);
+			break;
+			
+	case 'tambah':
+			echo $dp->tambah($_POST['list']);
 			break;
 			
 	default:
