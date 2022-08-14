@@ -31,6 +31,7 @@ class Database{
 	public function tampilkan($data = []){
 			require_once 'view.php';
 	}
+	
 
 }
 
@@ -63,6 +64,14 @@ class Data extends Database{
 			return $this->tampilkan($this->eksekusi());
 	
 	}
+	
+	//Mengubah data status
+	public function selesaikan($id){
+			$this->query("UPDATE todolist SET status='selesai' WHERE list='$id'");
+			$this->eksekusi();
+			return $this->semuaData();
+			
+	}
 }
 
 
@@ -77,7 +86,11 @@ switch($_GET['pilih']){
 	case 'menunggu':
 		echo $dp->tertua();
 			break;
-	
+			
+	case 'selesaikan':
+			echo $dp->selesaikan($_GET['id']);
+			break;
+			
 	default:
 	
 		if($_POST['cari']){
