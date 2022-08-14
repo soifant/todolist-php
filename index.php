@@ -59,7 +59,7 @@ class Data extends Database{
 	
 	//Menampilkan berdasarkan pencarian
 	public function cari($cari){
-			$this->query("SELECT * FROM dataPegawai WHERE=$cari");
+			$this->query("SELECT * FROM dataPegawai WHERE umur=$cari");
 			return $this->tampilkan($this->eksekusi());
 	
 	}
