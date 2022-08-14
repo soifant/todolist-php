@@ -44,15 +44,15 @@ class Data extends Database{
 	
 	}
 	
-	//Menampilkan dari umur termuda
-	public function termuda(){
+	//Menampilkan daftar selesai
+	public function selesai(){
 			$this->query("SELECT * FROM todolist WHERE status='selesai'");
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
-	//Menampilkan dari yang tua
-	public function tertua(){
+	//Menampilkan menunggu
+	public function menunggu(){
 			$this->query("SELECT * FROM todolist WHERE status='menunggu'");
 			return $this->tampilkan($this->eksekusi());
 	
@@ -80,11 +80,11 @@ class Data extends Database{
 $dp = new Data;
 switch($_GET['pilih']){
 	case 'selesai':
-		echo $dp->termuda();
+		echo $dp->selesai();
 			break;
 	
 	case 'menunggu':
-		echo $dp->tertua();
+		echo $dp->selesai();
 			break;
 			
 	case 'selesaikan':
