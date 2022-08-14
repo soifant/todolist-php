@@ -72,17 +72,19 @@ $dp = new Data;
 switch($_GET['pilih']){
 	case 'termuda':
 		echo $dp->termuda();
-		echo 'termuda';
 			break;
 	
 	case 'tertua':
 		echo $dp->tertua();
-		echo 'tertua';
 			break;
 	
 	default:
-		echo $dp->semuaData();
-		echo "no switch";
+		if($_POST['cari']){
+		
+				echo $dp->cari($_POST['cari']);
+		}else{
+				echo $dp->semuaData();
+		}
 			break;			
 
 }
@@ -95,3 +97,8 @@ switch($_GET['pilih']){
 <a href="/?pilih=termuda" >Termuda</a>
 <br>
 <a href="/?pilih=tertua" >Tetua</a>
+
+<form method="post" action="/">
+<input placeholder="input" name="cari" >
+<button type="submit">cari</button>
+</from>
