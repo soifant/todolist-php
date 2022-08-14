@@ -29,8 +29,20 @@
 Todolist
 </span>
 
-</span>
+<a href="#" onclick="tambah()">
+<span class="tambah">
+Tambah
+</span></a>
+
 </div>
+
+<div id="tambah" style="display:none;">
+<form action="/?pilih=tambah" method="post" >
+<input name="list" placeholder="List name">
+<button type="submit">Tambah</button>
+</form>
+</div>
+
 <a href="/?pilih=selesai" >Selesai</a>
 <br>
 <a href="/?pilih=menunggu" >Menunggu</a>
@@ -41,7 +53,7 @@ Todolist
 <form method="post" action="/">
 <input placeholder="input" name="cari" >
 <button type="submit">cari</button>
-</from>
+</form>
 <br>
 <br>
 
@@ -71,3 +83,12 @@ echo '
 </div>';
 }
 ?>
+
+<script type="text/javascript">
+function tambah(){
+	document.getElementById('tambah').style.display = 'block';
+}
+
+</script>
+</body>
+</html>
