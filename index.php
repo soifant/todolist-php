@@ -110,6 +110,14 @@ class Data extends Database{
 				echo 'kesalahan';	
 			}
 	}
+	
+	
+	//Daftar
+	public function daftar($usr, $pas){
+			$this->query("INSERT INTO data_user SET username='$usr', password='$pas'");
+			$this->eksekusi();
+			return header('location:/');
+	}
 }
 
 
@@ -140,6 +148,11 @@ if($_SESSION['user']){
 				echo $dp->hapus($_GET['id']);
 				break;
 				
+		case 'keluar':
+				session_unset();
+				session_destroy();
+				header('location:/');
+				break;
 		
 		default:
 		
@@ -148,6 +161,7 @@ if($_SESSION['user']){
 					echo $dp->cari($_POST['cari']);
 			}else{
 					echo $dp->semuaData();
+					
 			}
 					break;			
 	
@@ -159,6 +173,10 @@ if($_SESSION['user']){
 	
 		case 'login':
 		echo $dp->login($_POST['user'], $_POST['pass']);
+		break;
+		
+		case 'daftar':
+		echo $dp->daftar($_POST['user'], $_POST['pass']);
 		break;
 		
 		default:
