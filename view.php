@@ -36,6 +36,9 @@ Tambah
 
 </div>
 
+<?php echo "<br>Halo ".$_SESSION['user']; ?>
+<br>
+<br>
 <div id="tambah" style="display:none;">
 <form action="/?pilih=tambah" method="post" >
 <input name="list" placeholder="List name" required="required">
@@ -49,6 +52,9 @@ Tambah
 <br>
 <a href="/" >Semua</a>
 <br>
+<a href="/?pilih=keluar" >Keluar</a>
+<br>
+
 
 <form method="post" action="/">
 <input placeholder="input" name="cari" >
