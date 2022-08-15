@@ -38,7 +38,7 @@ Tambah
 
 <div id="tambah" style="display:none;">
 <form action="/?pilih=tambah" method="post" >
-<input name="list" placeholder="List name">
+<input name="list" placeholder="List name" required="required">
 <button type="submit">Tambah</button>
 </form>
 </div>
@@ -78,6 +78,8 @@ if($da['status'] == 'menunggu'){
 }
 
 echo '
+<a href="/?pilih=hapus&id='.$da['list'].'"> Hapus</a>
+
 </span>
 
 </div>';
