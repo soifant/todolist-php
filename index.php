@@ -79,6 +79,14 @@ class Data extends Database{
 			$this->eksekusi();
 			return $this->semuaData();
 	}
+	
+	//Menghapus daftar
+	public function hapus($list){
+			$this->query("DELETE FROM todolist WHERE list='$list'");
+			$this->eksekusi();
+			return $this->semuaData();
+			
+	}
 }
 
 
@@ -100,6 +108,10 @@ switch($_GET['pilih']){
 			
 	case 'tambah':
 			echo $dp->tambah($_POST['list']);
+			break;
+			
+	case 'hapus':
+			echo $dp->hapus($_GET['id']);
 			break;
 			
 	default:
