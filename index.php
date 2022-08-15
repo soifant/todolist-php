@@ -42,53 +42,53 @@ class Database{
 class Data extends Database{
 	
 	//Menampilkan semua
-	public function semuaData(){
-			$this->query('SELECT * FROM todolist');
+	public function semuaData($usr){
+			$this->query("SELECT * FROM todolist WHERE user='$usr'");
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Menampilkan daftar selesai
-	public function selesai(){
-			$this->query("SELECT * FROM todolist WHERE status='selesai'");
+	public function selesai($usr){
+			$this->query("SELECT * FROM todolist WHERE status='selesai' and user='$usr'");
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Menampilkan daftar menunggu
-	public function menunggu(){
-			$this->query("SELECT * FROM todolist WHERE status='menunggu'");
+	public function menunggu($usr){
+			$this->query("SELECT * FROM todolist WHERE status='menunggu' and user='$usr'");
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Menampilkan berdasarkan pencarian
-	public function cari($cari){
-			$this->query("SELECT * FROM todolist WHERE list='$cari'");
+	public function cari($cari, $usr){
+			$this->query("SELECT * FROM todolist WHERE list='$cari' and user='$usr'");
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Mengubah data status
-	public function selesaikan($id){
-			$this->query("UPDATE todolist SET status='selesai' WHERE list='$id'");
+	public function selesaikan($id, $usr){
+			$this->query("UPDATE todolist SET status='selesai' WHERE list='$id' and user='$usr'");
 			$this->eksekusi();
-			return $this->semuaData();
+			return $this->semuaData($usr);
 			
 	}
 	
 	//Menambah daftar
-	public function tambah($list){
-			$this->query("INSERT INTO todolist SET list='$list', status='menunggu'");
+	public function tambah($list, $usr){
+			$this->query("INSERT INTO todolist SET list='$list', status='menunggu', user='$usr'");
 			$this->eksekusi();
-			return $this->semuaData();
+			return $this->semuaData($usr);
 	}
 	
 	//Menghapus daftar
-	public function hapus($list){
-			$this->query("DELETE FROM todolist WHERE list='$list'");
+	public function hapus($list, $usr){
+			$this->query("DELETE FROM todolist WHERE list='$list' and user='$usr'");
 			$this->eksekusi();
-			return $this->semuaData();
+			return $this->semuaData($usr);
 			
 	}
 	
@@ -104,7 +104,7 @@ class Data extends Database{
 			
 			if($cekU == $usr && $cekP == $pas){
 				$_SESSION['user'] = $usr;
-				return $this->semuaData();
+				return $this->semuaData($usr);
 			
 			}else{
 				echo 'kesalahan';	
@@ -129,23 +129,23 @@ if($_SESSION['user']){
 
 	switch($_GET['pilih']){
 		case 'selesai':
-			echo $dp->selesai();
+			echo $dp->selesai($_SESSION['user']);
 				break;
 		
 		case 'menunggu':
-			echo $dp->menunggu();
+			echo $dp->menunggu($_SESSION['user']);
 				break;
 				
 		case 'selesaikan':
-				echo $dp->selesaikan($_GET['id']);
+				echo $dp->selesaikan($_GET['id'], $_SESSION['user']);
 				break;
 				
 		case 'tambah':
-				echo $dp->tambah($_POST['list']);
+				echo $dp->tambah($_POST['list'], $_SESSION['user']);
 				break;
 				
 		case 'hapus':
-				echo $dp->hapus($_GET['id']);
+				echo $dp->hapus($_GET['id'], $_SESSION['user']);
 				break;
 				
 		case 'keluar':
@@ -160,7 +160,7 @@ if($_SESSION['user']){
 			
 					echo $dp->cari($_POST['cari']);
 			}else{
-					echo $dp->semuaData();
+					echo $dp->semuaData($_SESSION['user']);
 					
 			}
 					break;			
