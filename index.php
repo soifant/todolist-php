@@ -158,7 +158,7 @@ if($_SESSION['user']){
 		
 			if($_POST['cari']){
 			
-					echo $dp->cari($_POST['cari']);
+					echo $dp->cari($_POST['cari'], $_SESSION['user']);
 			}else{
 					echo $dp->semuaData($_SESSION['user']);
 					
