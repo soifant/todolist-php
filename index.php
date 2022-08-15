@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class Database{
 	//property
@@ -34,6 +35,9 @@ class Database{
 	
 
 }
+
+
+//Mengelola data
 
 class Data extends Database{
 	
@@ -87,42 +91,81 @@ class Data extends Database{
 			return $this->semuaData();
 			
 	}
+	
+	//Login
+	public function login($usr, $pas){
+			$this->query("SELECT * FROM data_user WHERE username='$usr'");
+			
+			foreach($this->eksekusi() as $cek){
+				$cekU = $cek['username'];
+				$cekP = $cek['password'];
+			
+			}
+			
+			if($cekU == $usr && $cekP == $pas){
+				$_SESSION['user'] = $usr;
+				return $this->semuaData();
+			
+			}else{
+				echo 'kesalahan';	
+			}
+	}
 }
 
 
 
 
 $dp = new Data;
-switch($_GET['pilih']){
-	case 'selesai':
-		echo $dp->selesai();
-			break;
-	
-	case 'menunggu':
-		echo $dp->menunggu();
-			break;
-			
-	case 'selesaikan':
-			echo $dp->selesaikan($_GET['id']);
-			break;
-			
-	case 'tambah':
-			echo $dp->tambah($_POST['list']);
-			break;
-			
-	case 'hapus':
-			echo $dp->hapus($_GET['id']);
-			break;
-			
-	default:
-	
-		if($_POST['cari']){
+
+if($_SESSION['user']){
+
+	switch($_GET['pilih']){
+		case 'selesai':
+			echo $dp->selesai();
+				break;
 		
-				echo $dp->cari($_POST['cari']);
-		}else{
-				echo $dp->semuaData();
+		case 'menunggu':
+			echo $dp->menunggu();
+				break;
+				
+		case 'selesaikan':
+				echo $dp->selesaikan($_GET['id']);
+				break;
+				
+		case 'tambah':
+				echo $dp->tambah($_POST['list']);
+				break;
+				
+		case 'hapus':
+				echo $dp->hapus($_GET['id']);
+				break;
+				
+		
+		default:
+		
+			if($_POST['cari']){
+			
+					echo $dp->cari($_POST['cari']);
+			}else{
+					echo $dp->semuaData();
+			}
+					break;			
+	
+	}
+
+}else{
+
+	switch($_GET['pilih']){
+	
+		case 'login':
+		echo $dp->login($_POST['user'], $_POST['pass']);
+		break;
+		
+		default:
+		require_once 'login.php';
+		break;
+		
 		}
-				break;			
 
 }
 
