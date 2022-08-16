@@ -3,30 +3,32 @@ session_start();
 
 	class Database{
 	private $dbhost= "sql107.epizy.com",
-	$dbuser= "epiz_32134529",
-	$dbpass= "w9RBcEgTB4EY",
-	$dbname= "epiz_32134529_artikel",
-	$db,
-	$stmt;
+	        $dbuser= "epiz_32134529",
+	        $dbpass= "w9RBcEgTB4EY",
+	        $dbname= "epiz_32134529_artikel",
+	        $db,
+	        $stmt;
 	
 	public function __construct(){
-	$dsn = "mysql:host=".$this->dbhost.";dbname=".$this->dbname."";
-	$option = [PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION];
+
+	       $dsn = "mysql:host=".$this->dbhost.";dbname=".$this->dbname."";
+	       $option = [PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION];
 	
 	try{
 	
-	$this->db = new PDO($dsn, $this->dbuser, $this->dbpass, $option);
+	       $this->db = new PDO($dsn, $this->dbuser, $this->dbpass, $option);
 	
 	}catch(PDOException $e){
 	
-	die($e->getMessage());
+	       die($e->getMessage());
 	
 	}
 	}
 	
 	
 	public function query($query){
-	$this->stmt = $this->db->prepare($query);
+
+	       $this->stmt = $this->db->prepare($query);
 	}
 	
 	
