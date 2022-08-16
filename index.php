@@ -1,77 +1,118 @@
 <?php
 session_start();
 
-class Database{
-	//property
+	class Database{
 	private $dbhost= "sql107.epizy.com",
-			$dbuser= "epiz_32134529",
-			$dbpass= "w9RBcEgTB4EY",
-			$dbname= "epiz_32134529_artikel",
-			$db,
-			$stmt;
+	$dbuser= "epiz_32134529",
+	$dbpass= "w9RBcEgTB4EY",
+	$dbname= "epiz_32134529_artikel",
+	$db,
+	$stmt;
 	
-	//Method
 	public function __construct(){
-			$this->db = new mysqli($this->dbhost, $this->dbuser, $this->dbpass, $this->dbname);
+	$dsn = "mysql:host=".$this->dbhost.";dbname=".$this->dbname."";
+	$option = [PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION];
+	
+	try{
+	
+	$this->db = new PDO($dsn, $this->dbuser, $this->dbpass, $option);
+	
+	}catch(PDOException $e){
+	
+	die($e->getMessage());
 	
 	}
+	}
 	
-	//Menyimpan query
+	
 	public function query($query){
-			$this->stmt = $query;
-	
+	$this->stmt = $this->db->prepare($query);
 	}
 	
-	//Melakukan koneksi
+	
+	public function bind($param, $value, $type = null){
+		if(is_null($type)){
+		
+			switch(true){
+			
+				case is_int($value) :
+					$type = PDO::PARAM_INT;
+				break;
+				
+				case is_bool($value) :
+					$type = PDO::PARAM_BOOL;
+				break;
+				
+				default :
+					$type = PDO::PARAM_STR;
+		
+		}
+	}
+	
+	$this->stmt->bindValue($param, $value, $type);
+	}
+	
+	
 	public function eksekusi(){
-			return mysqli_query($this->db, $this->stmt);
-	
+	$this->stmt->execute();
 	}
 	
-	//Menampilkan data
-	public function tampilkan($data = []){
-			require_once 'view.php';
+	public function fetch(){
+	$this->eksekusi();
+	return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
-
+	public function tampilkan(){
+		$data = $this->fetch();
+		require_once 'view.php';
+	}
 }
-
+	
 
 //Mengelola data
-
 class Data extends Database{
 	
 	//Menampilkan semua
 	public function semuaData($usr){
-			$this->query("SELECT * FROM todolist WHERE user='$usr'");
+			$this->query("SELECT * FROM todolist WHERE user=:user");
+			$this->bind('user', $usr);
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Menampilkan daftar selesai
 	public function selesai($usr){
-			$this->query("SELECT * FROM todolist WHERE status='selesai' and user='$usr'");
+			$this->query("SELECT * FROM todolist WHERE status=:status and user=:user");
+			$this->bind('status', 'selesai');
+			$this->bind('user', $usr);
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Menampilkan daftar menunggu
 	public function menunggu($usr){
-			$this->query("SELECT * FROM todolist WHERE status='menunggu' and user='$usr'");
+			$this->query("SELECT * FROM todolist WHERE status=:status and user=:user");
+			$this->bind('status', 'menunggu');
+			$this->bind('user', $usr);
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Menampilkan berdasarkan pencarian
 	public function cari($cari, $usr){
-			$this->query("SELECT * FROM todolist WHERE list='$cari' and user='$usr'");
+			$this->query("SELECT * FROM todolist WHERE list=:cari and user=:user");
+			$this->bind('cari', $cari);
+			$this->bind('user', $usr);
 			return $this->tampilkan($this->eksekusi());
 	
 	}
 	
 	//Mengubah data status
 	public function selesaikan($id, $usr){
-			$this->query("UPDATE todolist SET status='selesai' WHERE list='$id' and user='$usr'");
+			$this->query("UPDATE todolist SET status=:status WHERE list=:id and user=:user");
+			$this->bind('status', 'selesai');
+			$this->bind('id', $id);
+			$this->bind('user', $usr);
 			$this->eksekusi();
 			return $this->semuaData($usr);
 			
@@ -79,14 +120,19 @@ class Data extends Database{
 	
 	//Menambah daftar
 	public function tambah($list, $usr){
-			$this->query("INSERT INTO todolist SET list='$list', status='menunggu', user='$usr'");
+			$this->query("INSERT INTO todolist SET list=:list, status=:status, user=:user");
+			$this->bind('list', $list);
+			$this->bind('status', 'menunggu');
+			$this->bind('user', $usr);
 			$this->eksekusi();
 			return $this->semuaData($usr);
 	}
 	
 	//Menghapus daftar
 	public function hapus($list, $usr){
-			$this->query("DELETE FROM todolist WHERE list='$list' and user='$usr'");
+			$this->query("DELETE FROM todolist WHERE list=:list and user=:user");
+			$this->bind('list', $list);
+			$this->bind('user', $usr);
 			$this->eksekusi();
 			return $this->semuaData($usr);
 			
@@ -94,9 +140,9 @@ class Data extends Database{
 	
 	//Login
 	public function login($usr, $pas){
-			$this->query("SELECT * FROM data_user WHERE username='$usr'");
-			
-			foreach($this->eksekusi() as $cek){
+			$this->query("SELECT * FROM data_user WHERE username=:user");
+			$this->bind('user', $usr);
+			foreach($this->fetch() as $cek){
 				$cekU = $cek['username'];
 				$cekP = $cek['password'];
 			
@@ -190,4 +236,3 @@ if($_SESSION['user']){
 
 
 ?>
-
