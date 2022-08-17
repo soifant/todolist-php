@@ -6,6 +6,7 @@ class home extends controller{
 	public function index(){
 		$data['data'] = $this->model('Home_model')->getHome();
 		$this->view('template/header');
+		$this->alert();
 		
 		if($_SESSION['user']){
 		
@@ -17,11 +18,29 @@ class home extends controller{
 	}
 	
 	public function hapus($list){
-		$this->model('Home_model')->getHapus($list);
+	
+		if($this->model('Home_model')->getHapus($list) > 0){
+		$_SESSION['alert'] = ['sukses', 'hapus'];
+		
+		return header('location:/');
+		}else{
+		
+		$_SESSION['alert'] = ['gagal', 'hapus'];
+		return header('location:/');
+		}
+		
 	}
 	
 	public function tambah(){
-		$this->model('Home_model')->getTambah($_POST);
+		if($this->model('Home_model')->getTambah($_POST) > 0){
+		$_SESSION['alert'] = ['sukses', 'tambah'];
+		
+		return header('location:/');
+		}else{
+		
+		$_SESSION['alert'] = ['gagal', 'tambah'];
+		return header('location:/');
+		}
 	
 	}
 	
@@ -38,7 +57,15 @@ class home extends controller{
 	}
 	
 	public function selesaikan($list){
-		$this->model('Home_model')->getSelesaikan($list);
+		if($this->model('Home_model')->getSelesaikan($list) > 0){
+		$_SESSION['alert'] = ['sukses', 'menyelesaikan'];
+		
+		return header('location:/');
+		}else{
+		
+		$_SESSION['alert'] = ['gagal', 'menyelesaikan'];
+		return header('location:/');
+		}
 	
 	}
 	
