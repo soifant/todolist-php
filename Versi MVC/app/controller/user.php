@@ -2,17 +2,17 @@
 
 class user extends Controller{
 	public function index($param){
+	
 	$this->view('template/header');
+	
 	switch($param){
-		case 'masuk':
-			$this->view('user/masuk');
-				break;
 			
 		case 'daftar':
 			$this->view('user/daftar');
 				break;
 				
 		default:
+			$this->alert();
 			$this->view('user/masuk');
 				break;
 	}
@@ -20,19 +20,45 @@ class user extends Controller{
 	
 	}
 	
+	
+	
 	public function daftar(){
-		$this->model('User_model')->getDaftar($_POST);
+		if($this->model('User_model')->getDaftar($_POST) > 0){
+			
+			$_SESSION['alert'] = ['sukses', 'daftar'];
+			return header('location:/?url=user');	
+					
+		}else{
+		
+			$_SESSION['alert'] = ['gagal', 'daftar'];
+			return header('location:/?url=user');			
+		}
 	}
 	
-	public function masuk(){
-		$this->model('User_model')->getMasuk($_POST);
 	
+	
+	public function masuk(){
+		$data['data'] = $this->model('User_model')->getMasuk($_POST);
+		
+		foreach($data['data'] as $cek){
+			$cekU = $cek['username'];
+			$cekP = $cek['password'];
+		}
+		
+		if($cekU == $_POST['user'] && $cekP == $_POST['pass']){
+			$_SESSION['user'] = $cekU;
+			return header('location:/');
+		}else{
+			
+			$_SESSION['alert'] = ['gagal', 'masuk'];
+			return header('location:/?url=user');
+		}
 		
 	}
 	
 	public function keluar(){
-		session_unset();
-		session_destroy();
+		unset($_SESSION['user']);
+		$_SESSION['alert'] = ['sukses', 'keluar'];
 		header('location:/');
 	}
 
