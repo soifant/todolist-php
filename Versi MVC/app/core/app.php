@@ -9,7 +9,7 @@ class App{
 	//Method
 	public function __construct(){
 		$url = $this->getUrl();
-	
+		
 		if(file_exists('app/controller/'.$url[0].'.php')){
 			$this->controller = $url[0];
 			unset($url[0]);
@@ -40,13 +40,45 @@ class App{
 	//Mengambil url
 	public function getUrl(){
 		if($_GET['url']){
+		
 			$url = $_GET['url'];
 			$url = rtrim($url, '/');
 			$url = filter_var($url, FILTER_SANITIZE_URL);
 			$url = explode('/', $url);
+			
+		
+		if($_SESSION['user']){
+		
 			return $url;
+			
+		}else{
+		
+			
+
+		if($url[1] == 'masuk'){
+		
+			return $url = ['user', 'masuk'];
+		
+		}else if($url[1] == 'daftar'){
+		
+			return $url = ['user', 'daftar'];
+		
+		}else{
+		
+			switch($url[2]){
+		
+				case 'daftar':
+				return $url = $url;
+				break;
+				
+				default:
+				return $url = ['user', 'index', 'masuk'];
+				break;
+			}
+		
 		}
 	}
 }
-
+}
+}
 ?>
