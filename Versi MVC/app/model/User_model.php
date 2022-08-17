@@ -9,27 +9,16 @@ class User_model extends Database{
 			$this->bind('user', $user['user']);
 			$this->bind('pw', $user['pass']);
 			$this->eksekusi();
-			return header('location:/');
-		}
-		
-		
+			return $this->rowCount();
+	}
+	
+	
 	public function getMasuk($user){
 			$query = "SELECT * FROM data_user WHERE username=:user";
 			$this->query($query);
 			$this->bind('user', $user['user']);
+			return $this->ambilData();
 			
-			foreach($this->ambilData() as $cek){
-				$cekU = $cek['username'];
-				$cekP = $cek['password'];
-			}
-			
-			if($cekU == $user['user'] && $cekP == $user['pass']){
-				$_SESSION['user'] = $user['user'];
-				return header('location:/');
-			}else{
-				return 'kesalahan';
-			}
-			
-		
 		}
 }
+?>
