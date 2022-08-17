@@ -4,7 +4,13 @@ class home extends controller{
 
 	public function index(){
 		$data['data'] = $this->model('Home_model')->getHome();
+		if($_SESSION['user']){
+		
 		$this->view('home/home', $data);
+		}else{
+		
+		$this->view('user/masuk');
+		}
 	}
 	
 	public function hapus($list){
