@@ -2,7 +2,7 @@
 
 class user extends Controller{
 	public function index($param){
-	
+	$this->view('template/header');
 	switch($param){
 		case 'masuk':
 			$this->view('user/masuk');
