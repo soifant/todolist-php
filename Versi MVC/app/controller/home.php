@@ -2,8 +2,11 @@
 
 class home extends controller{
 
+	
 	public function index(){
 		$data['data'] = $this->model('Home_model')->getHome();
+		$this->view('template/header');
+		
 		if($_SESSION['user']){
 		
 		$this->view('home/home', $data);
@@ -24,11 +27,13 @@ class home extends controller{
 	
 	public function selesai(){
 		$data['data'] = $this->model('Home_model')->getSelesai();
+		$this->view('template/header');
 		$this->view('home/home', $data);
 	}
 	
 	public function menunggu(){
 		$data['data'] = $this->model('Home_model')->getMenunggu();
+		$this->view('template/header');
 		$this->view('home/home', $data);
 	}
 	
@@ -39,8 +44,12 @@ class home extends controller{
 	
 	public function cari(){
 		$data['data'] = $this->model('Home_model')->getCari($_POST);
+		$this->view('template/header');
 		$this->view('home/home', $data);
 	}
+	
+	
+	
 }
 
 ?>
