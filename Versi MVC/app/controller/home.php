@@ -17,7 +17,8 @@ class home extends controller{
 		}
 	}
 	
-	public function hapus($list){
+	public function hapus($list = 'kosong'){
+		if($list != 'kosong'){
 	
 		if($this->model('Home_model')->getHapus($list) > 0){
 		$_SESSION['alert'] = ['sukses', 'hapus'];
@@ -29,9 +30,17 @@ class home extends controller{
 		return header('location:/');
 		}
 		
+		}else{
+		
+		$_SESSION['alert'] = ['gagal', 'hapus'];
+		return header('location:/');
+		}
+		
 	}
 	
 	public function tambah(){
+		if(!empty($_POST['list'])){
+		
 		if($this->model('Home_model')->getTambah($_POST) > 0){
 		$_SESSION['alert'] = ['sukses', 'tambah'];
 		
@@ -41,7 +50,13 @@ class home extends controller{
 		$_SESSION['alert'] = ['gagal', 'tambah'];
 		return header('location:/');
 		}
+		
+	}else{
+		
+		$_SESSION['alert'] = ['gagal', 'tambah'];
+		return header('location:/');
 	
+	}
 	}
 	
 	public function selesai(){
@@ -56,11 +71,18 @@ class home extends controller{
 		$this->view('home/home', $data);
 	}
 	
-	public function selesaikan($list){
+	public function selesaikan($list = 'kosong'){
+		if($list != 'kosong'){
+		
 		if($this->model('Home_model')->getSelesaikan($list) > 0){
 		$_SESSION['alert'] = ['sukses', 'menyelesaikan'];
 		
 		return header('location:/');
+		}else{
+		
+		$_SESSION['alert'] = ['gagal', 'menyelesaikan'];
+		return header('location:/');
+		}
 		}else{
 		
 		$_SESSION['alert'] = ['gagal', 'menyelesaikan'];
@@ -78,5 +100,4 @@ class home extends controller{
 	
 	
 }
-
 ?>
