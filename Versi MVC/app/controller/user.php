@@ -8,6 +8,7 @@ class user extends Controller{
 	switch($param){
 			
 		case 'daftar':
+			$this->alert();
 			$this->view('user/daftar');
 				break;
 				
@@ -23,6 +24,15 @@ class user extends Controller{
 	
 	
 	public function daftar(){
+		if(!empty($_POST['user']) || !empty($_POST['pass'])){
+	
+	
+		$data['data'] = $this->model('User_model')->getMasuk($_POST);
+		foreach($data['data'] as $cek){
+		$cekU = $cek['username'];
+		}
+	
+		if($cekU != $_POST['user']){
 		if($this->model('User_model')->getDaftar($_POST) > 0){
 			
 			$_SESSION['alert'] = ['sukses', 'daftar'];
@@ -33,11 +43,27 @@ class user extends Controller{
 			$_SESSION['alert'] = ['gagal', 'daftar'];
 			return header('location:/?url=user');			
 		}
+		
+		}else{
+		
+			$_SESSION['alert'] = ['gagal', 'daftar'];
+			return header('location:/?url=user/index/daftar');			
+			
+		}
+		}else{
+			
+			$_SESSION['alert'] = ['gagal', 'daftar'];
+			return header('location:/?url=user/index/daftar');			
+			
+		}
 	}
 	
 	
 	
 	public function masuk(){
+		if(!empty($_POST['user']) || !empty($_POST['pass'])){
+		
+		
 		$data['data'] = $this->model('User_model')->getMasuk($_POST);
 		
 		foreach($data['data'] as $cek){
@@ -50,6 +76,12 @@ class user extends Controller{
 			return header('location:/');
 		}else{
 			
+			$_SESSION['alert'] = ['gagal', 'masuk'];
+			return header('location:/?url=user');
+		}
+		
+		}else{
+		
 			$_SESSION['alert'] = ['gagal', 'masuk'];
 			return header('location:/?url=user');
 		}
