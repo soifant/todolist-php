@@ -15,12 +15,13 @@ class Home_model extends Database{
 	}
 	
 	public function getHapus($list){
-		$query = "DELETE FROM todolist WHERE list=:list and user=:user";
+		$query = "DELETE FROM todolist WHERE id=:id and user=:user";
 		$this->query($query);
-		$this->bind('list', $list);
+		$this->bind('id', $list);
 		$this->bind('user', $this->sesi());
 		$this->eksekusi();
-		return header('location:/');
+		$_SESSION['alert'] = 'home';
+		return $this->rowCount();
 	}
 	
 	public function getTambah($list){
@@ -30,7 +31,8 @@ class Home_model extends Database{
 		$this->bind('status', 'menunggu');
 		$this->bind('user', $this->sesi());
 		$this->eksekusi();
-		return header('location:/');
+		$_SESSION['alert'] = 'home';
+		return $this->rowCount();
 	}
 	
 	public function getSelesai(){
@@ -53,13 +55,14 @@ class Home_model extends Database{
 	}
 	
 	public function getSelesaikan($list){
-		$query = "UPDATE todolist SET status=:status WHERE list=:list and user=:user";
+		$query = "UPDATE todolist SET status=:status WHERE id=:id and user=:user";
 		$this->query($query);
 		$this->bind('status', 'selesai');
-		$this->bind('list', $list);
+		$this->bind('id', $list);
 		$this->bind('user', $this->sesi());
 		$this->eksekusi();
-		return header('location:/');
+		$_SESSION['alert'] = 'home';
+		return $this->rowCount();
 		
 	}
 	
@@ -73,15 +76,18 @@ class Home_model extends Database{
 	}
 	
 	public function getEdit($list){
-		$query = "UPDATE todolist SET list=:list WHERE id=:id";
+		$query = "UPDATE todolist SET list=:list WHERE id=:id and user=:user";
 		$this->query($query);
 		$this->bind('list', $list['list']);
 		$this->bind('id', $list['id']);
+		$this->bind('user', $this->sesi());
 		$this->eksekusi();
 		$_SESSION['alert'] = 'home';
 		return $this->rowCount();
 	
 	}
+	
+	
 }
 
 ?>
