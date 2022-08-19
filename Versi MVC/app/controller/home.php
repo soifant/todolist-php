@@ -97,7 +97,26 @@ class home extends controller{
 		$this->view('home/home', $data);
 	}
 	
-	
+	public function edit(){
+		if(!empty($_POST['list'])){
+		
+			if($this->model('Home_model')->getEdit($_POST) > 0){
+				$_SESSION['alert'] = ['sukses', 'edit'];
+			
+				return header('location:/');
+			}else{
+			
+				$_SESSION['alert'] = ['gagal', 'edit'];
+				return header('location:/');
+			}
+		
+		}else{
+		
+			$_SESSION['alert'] = ['gagal', 'edit'];
+			return header('location:/');
+		
+		}
+	}
 	
 }
 ?>
