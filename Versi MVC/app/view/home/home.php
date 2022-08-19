@@ -53,12 +53,12 @@ foreach($data['data'] as $da){
   </i>
   </a><?= $da['list']; ?>
   <ul class="dropdown-menu">
-  <li><a data-bs-toggle="modal" data-bs-target="#edit" class="dropdown-item" href="/">Edit</a></li>
+  <li><a data-bs-toggle="modal" data-bs-target="#<?= $da['list']; ?>" class="dropdown-item" href="/">Edit</a></li>
   <li><a class="dropdown-item" href="?url=home/hapus/<?= $da['list']; ?>">Hapus</a></li>
    </ul>
   </div>
   
-  <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="<?= $da['list']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
   <div class="modal-content">
   <div class="modal-header">
@@ -66,8 +66,9 @@ foreach($data['data'] as $da){
   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
   <div class="modal-body">
-  <form method="post"	action="/?url=home/tambah">
+  <form method="post"	action="/?url=home/edit">
   <div class="input-group">
+  <input type="text" class="form-control" name="id" type="hidden" value="<?= $da['id']; ?>" aria-label="Edit data" aria-describedby="button-addon2">
   <input type="text" class="form-control" name="list" placeholder="Nama list" value="<?= $da['list']; ?>" aria-label="Edit data" aria-describedby="button-addon2">
   <button class="btn btn-outline-secondary btn-success black" type="submit" id="button-addon2">Edit</button>
   
