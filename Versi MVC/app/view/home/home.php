@@ -54,7 +54,7 @@ foreach($data['data'] as $da){
   </a><?= $da['list']; ?>
   <ul class="dropdown-menu">
   <li><a data-bs-toggle="modal" data-bs-target="#<?= $da['list']; ?>" class="dropdown-item" href="/">Edit</a></li>
-  <li><a class="dropdown-item" href="?url=home/hapus/<?= $da['list']; ?>">Hapus</a></li>
+  <li><a class="dropdown-item" href="?url=home/hapus/<?= $da['id']; ?>">Hapus</a></li>
    </ul>
   </div>
   
@@ -84,7 +84,7 @@ foreach($data['data'] as $da){
   <div class="col-5 txt-l">
   
   <?php if($da['status'] == 'menunggu'){ ?>
-    <a class="text-decoration-none black" href="?url=home/selesaikan/<?= $da['list']; ?>">
+    <a class="text-decoration-none black" href="?url=home/selesaikan/<?= $da['id']; ?>">
     <i class="fa fa-square-o fs-2 p-1"></i>
       </a>
       <?php }else{ ?>
