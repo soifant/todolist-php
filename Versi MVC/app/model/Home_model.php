@@ -72,7 +72,16 @@ class Home_model extends Database{
 		
 	}
 	
+	public function getEdit($list){
+		$query = "UPDATE todolist SET list=:list WHERE id=:id";
+		$this->query($query);
+		$this->bind('list', $list['list']);
+		$this->bind('id', $list['id']);
+		$this->eksekusi();
+		$_SESSION['alert'] = 'home';
+		return $this->rowCount();
 	
+	}
 }
 
 ?>
