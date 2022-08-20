@@ -40,16 +40,35 @@ class home extends controller{
 	
 	public function tambah(){
 		if(!empty($_POST['list'])){
-		
-		if($this->model('Home_model')->getTambah($_POST) > 0){
-		$_SESSION['alert'] = ['sukses', 'tambah'];
-		
-		return header('location:/');
-		}else{
-		
-		$_SESSION['alert'] = ['gagal', 'tambah'];
-		return header('location:/');
-		}
+			
+			if($this->filter($_POST['list'], 'home', 2, 50) > 0){
+			
+			$data['cari'] = $this->model('Home_model')->getCari($_POST);
+			foreach($data['cari'] as $cc){
+			$cekC = $cc['list'];	
+			}
+			
+			if($cekC != $_POST['list']){
+				if($this->model('Home_model')->getTambah($_POST) > 0){
+				$_SESSION['alert'] = ['sukses', 'tambah'];
+				
+				return header('location:/');
+				}else{
+				
+				$_SESSION['alert'] = ['gagal', 'tambah'];
+				return header('location:/');
+				}
+				
+			}else{
+				$_SESSION['alert'] = ['gagal', 'Menambah data karena '.$_POST['list'].' sudah ada di list'];
+				return header('location:/');
+			}
+			
+			}else{
+				$_SESSION['alert'] = ['gagal', 'Mohon untuk hanya mengunkan angka dan huruf'];
+				return header('location:/');
+			
+			}
 		
 	}else{
 		
@@ -99,6 +118,7 @@ class home extends controller{
 	
 	public function edit(){
 		if(!empty($_POST['list'])){
+		if($this->filter($_POST['list'], 'home', 2, 50) > 0){
 		
 			if($this->model('Home_model')->getEdit($_POST) > 0){
 				$_SESSION['alert'] = ['sukses', 'edit'];
@@ -109,7 +129,11 @@ class home extends controller{
 				$_SESSION['alert'] = ['gagal', 'edit'];
 				return header('location:/');
 			}
-		
+		}else{
+			$_SESSION['alert'] = ['gagal', 'edit gagal karena anda mengukanan karakter aneh'];
+			return header('location:/');
+			
+		}
 		}else{
 		
 			$_SESSION['alert'] = ['gagal', 'edit'];
@@ -117,6 +141,8 @@ class home extends controller{
 		
 		}
 	}
+	
+	
 	
 }
 ?>
