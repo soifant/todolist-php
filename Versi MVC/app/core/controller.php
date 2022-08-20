@@ -41,6 +41,43 @@ class controller{
 		}
 	}
 	
+	
+	
+	public function filter($user, $pass, $uMin = 3, $uMax = 16, $pMin = 6, $pMax = 31){
+	
+		if($pass == 'home'){
+		$user = str_replace(" ", "", $user);
+		}else{
+		$user = $user;
+		}
+		
+		$pass = $pass;
+		//$email = $email;
+		$patren = "/[a-z,0-9]/i";
+		
+		$user_minMax = strlen($user);
+		$user_alfaNumerik = preg_match_all($patren, $user);
+		$pass_minMax = strlen($pass);
+		$pass_alfaNumerik = preg_match_all($patren, $pass);
+		//$email_filter = filter_var($email, FILTER_VALIDATE_EMAIL);
+		
+		 if($user_minMax > $uMin &&
+			$user_minMax < $uMax &&
+			$user_alfaNumerik == $user_minMax &&
+			$pass_minMax > $uMin && 
+			$pass_minMax < $uMax && 
+			$pass_alfaNumerik == $pass_minMax){
+			//$email_filter == true
+			return 1;
+			
+		}else{
+			
+			return 0;
+		}
+	}
+	
+	
+	
 
 }
 ?>
